@@ -1,0 +1,61 @@
+## Approach 1
+
+```{r}
+library(landscapemetrics3)
+library(dplyr)
+library(stringr)
+library(tidytext)
+library(purrr)
+get_int_functions = function(x){
+    function_name1 = x$function_name
+    function_name2 = paste0(function_name1, "_calc")
+    int_functions1 = codetools::findGlobals(eval(parse(text = paste0("landscapemetrics3:::", function_name1))), merge = FALSE)$functions
+    int_functions2 = codetools::findGlobals(eval(parse(text = paste0("landscapemetrics3:::", function_name2))), merge = FALSE)$functions
+    unique(c(int_functions1, int_functions2))
+}
+
+lsm_dir = "~/Software/landscapemetrics3/"
+
+all_lsms = list_lsm()
+all_lsms2 = paste0(all_lsms$function_name, "_calc")
+
+all_ints = vector()
+for (i in seq_along(all_lsms$function_name)){
+    all_ints = c(all_ints, get_int_functions(all_lsms[i, ]))
+}
+all_int_funs = unique(all_ints)
+aggregate(data.frame(count = all_ints), list(value = all_ints), length) |> 
+    arrange(-count)
+```
+
+# Approach 2
+
+```{r}
+important_functions = str_subset(all_int_funs, "^(rcpp|get)")
+lsm_functions = str_subset(all_int_funs, "^lsm")
+
+get_functions_per_file = function(input_fun, important_functions){
+    my_files = paste0(lsm_dir, "R/", input_fun, ".R")
+    t1 = readLines(my_files)
+    new_df = tibble::tibble(line = seq_along(t1), text = t1) |>
+    unnest_tokens(word, text) |>
+    count(word) |>
+    arrange(-n) |> 
+    filter(word %in% important_functions)
+    new_df$input_fun = input_fun
+    return(new_df)
+}
+
+# get_functions_per_file(all_lsms$function_name[1], important_functions)
+
+fun_db = map_df(all_lsms$function_name, get_functions_per_file, important_functions = important_functions)
+fun_db |>
+    count(word) |>
+    arrange(-n)
+
+fun_db2 = map_df(all_lsms$function_name, get_functions_per_file, important_functions = lsm_functions)
+fun_db2 |>
+    count(word) |>
+    arrange(-n)
+```
+
