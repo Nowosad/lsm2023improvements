@@ -1,0 +1,29 @@
+## Using extras
+
+The extras object can be passed into `_calc` functions.
+
+```{r}
+# online
+# remotes::install_github("r-spatialecology/landscapemetrics@commoncalcs")
+# or locally (with the commoncalcs branch active)
+devtools::load_all("~/Software/landscapemetrics")
+```
+
+```{r}
+landscape <- terra::rast(landscapemetrics::augusta_nlcd)
+landscape <- terra::disagg(landscape, 4)
+# landscape <- terra::aggregate(landscape, 4, fun = "modal")
+```
+
+```{r}
+classes <- get_unique_values_int(landscape, verbose = FALSE)
+class_patches <- get_class_patches(landscape, classes, directions = 8)
+area_patches <- get_area_patches(class_patches, classes, resolution = terra::res(landscape))
+
+ex = list(classes = classes,
+          class_patches = class_patches,
+          area_patches = area_patches)
+
+bench::mark(landscapemetrics:::lsm_p_area_calc(landscape, directions = 8, extras = ex),
+            landscapemetrics3:::lsm_p_area_calc(landscape, directions = 8))
+```
