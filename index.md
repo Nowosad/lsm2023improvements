@@ -1,4 +1,4 @@
 - [Inventory of the functions used by the metrics](01-inventory.html)
-- [Benchmarks of the "extras" approach](03-benchmarks.html)
-- [An example of using "extras" in `_calc` functions](04-using-extras.html)
+- [Benchmarks of the "extras" approach (2023-09-24)](03-benchmarks.html)
+- [Benchmarks of the "extras" approach (2023-10-07)](05-benchmarks3.html)
 - [Moving window benchmarks](06-window-benchmarks.html)
