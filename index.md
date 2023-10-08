@@ -1,4 +1,5 @@
 - [Inventory of the functions used by the metrics](01-inventory.html)
 - [Benchmarks of the "extras" approach (2023-09-24)](03-benchmarks.html)
 - [Benchmarks of the "extras" approach (2023-10-07)](05-benchmarks3.html)
+- [Benchmarks of the "extras" approach (2023-10-08)](05-benchmarks4.html)
 - [Moving window benchmarks](06-window-benchmarks.html)
