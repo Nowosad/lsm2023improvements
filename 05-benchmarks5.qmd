@@ -1,0 +1,35 @@
+## 2023-10-16
+
+```{r}
+#| output: false
+# online
+# remotes::install_github("r-spatialecology/landscapemetrics@basemetrics3")
+# remotes::install_github("r-spatialecology/landscapemetrics@commoncalcs")
+# or locally
+devtools::install("~/Software/landscapemetrics3")
+devtools::install("~/Software/landscapemetrics")
+```
+
+```{r}
+landscape <- terra::rast(landscapemetrics::augusta_nlcd)
+# landscape <- terra::disagg(landscape, 4)
+# landscape <- terra::aggregate(landscape, 4, fun = "modal")
+```
+
+```{r}
+bench::mark(landscapemetrics::calculate_lsm(landscape, verbose = FALSE),
+            landscapemetrics3::calculate_lsm(landscape, verbose = FALSE),
+            iterations = 1, check = FALSE)
+```
+
+```{r}
+landscape2 <- terra::rast(landscapemetrics::landscape)
+# landscape <- terra::disagg(landscape, 4)
+# landscape <- terra::aggregate(landscape, 4, fun = "modal")
+```
+
+```{r}
+bench::mark(landscapemetrics::calculate_lsm(landscape2, verbose = FALSE),
+            landscapemetrics3::calculate_lsm(landscape2, verbose = FALSE),
+            iterations = 10, check = FALSE)
+```
