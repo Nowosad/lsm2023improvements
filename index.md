@@ -2,4 +2,6 @@
 - [Benchmarks of the "extras" approach (2023-09-24)](03-benchmarks.html)
 - [Benchmarks of the "extras" approach (2023-10-07)](05-benchmarks3.html)
 - [Benchmarks of the "extras" approach (2023-10-08)](05-benchmarks4.html)
+- [Benchmarks of the "extras" approach (2023-10-08) (after fresh installation)](05-benchmarks5.html)
 - [Moving window benchmarks](06-window-benchmarks.html)
+- [Moving window benchmarks (after fresh installation)](06-window-benchmarks2.html)
